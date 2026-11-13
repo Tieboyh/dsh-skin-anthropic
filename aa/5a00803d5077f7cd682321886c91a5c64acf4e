@@ -1,0 +1,16 @@
+README.md
+  h_3e197acbd40638 63,68
+cordis.patch.yml
+  h_3e197acbd40638 17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "aa5a00803d5077f7cd682321886c91a5c64acf4e",
+  "prompts": {},
+  "humans": {
+    "h_3e197acbd40638": {
+      "author": "hyh <Tieboyh@gmail.com>"
+    }
+  }
+}
