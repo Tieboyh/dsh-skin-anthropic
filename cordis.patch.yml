@@ -1,0 +1,19 @@
+# dsh-skin-anthropic bundle patch.
+#
+# 1. A host seat for the skin's client bundle.
+# 2. The typography stack: the skin owns it, so installing this one plugin
+#    delivers palette + type together. Values here are the bundle layer; a
+#    later profile-patch layer (or the Appearance settings) still wins, so the
+#    user can override any of them without touching the plugin.
+- insert:
+    - id: skin-anthropic
+      name: dsh-skin-anthropic
+
+- id: ui-theme
+  name: "@deepseek-ai/dsh-client-ui-theme"
+  config:
+    preference: system
+    fontSize: 16
+    textFontFamily: '"Anthropic Serif Web", "Anthropic Serif Web Text", "PingFang SC", Georgia, serif'
+    codeFontFamily: '"Anthropic Mono Web", "Anthropic Mono", "SF Mono", Menlo, monospace'
+    terminalFontFamily: '"Anthropic Mono Web", "Anthropic Mono", "SF Mono", Menlo, monospace'

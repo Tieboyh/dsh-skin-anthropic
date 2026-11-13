@@ -1,0 +1,25 @@
+/* Sidebar navigation styling is scoped to DSH's sidebar component. */
+body[data-dsh-skin="anthropic"] [class*="_root"]:has([data-sidebar-scrollport]) {
+    --dsh-sidebar-inline-padding: 12px;
+    --dsh-sidebar-row-padding: 8px;
+    --dsh-sidebar-label-gap: 10px;
+    --dsh-sidebar-paint-inset: 0px;
+}
+
+body[data-dsh-skin="anthropic"] [class*="_root"]:has([data-sidebar-scrollport]) button[class*="_newSession"] {
+    justify-content: flex-start;
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    padding-inline: 8px;
+    margin-inline: 0;
+}
+
+body[data-dsh-skin="anthropic"] [class*="_root"]:has([data-sidebar-scrollport]) [class*="_newSessionContent"] {
+    justify-content: flex-start;
+    gap: var(--dsh-sidebar-label-gap);
+}
+
+body[data-dsh-skin="anthropic"] [class*="_root"]:has([data-sidebar-scrollport]) button[class*="_newSession"]:hover {
+    background: var(--dsw-alias-interactive-bg-hover);
+}

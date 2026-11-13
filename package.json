@@ -1,0 +1,23 @@
+{
+  "name": "dsh-skin-anthropic",
+  "version": "0.1.0",
+  "description": "Anthropic paper skin for the DeepSeek Harness Web GUI: the public anthropic.com palette (paper greys, clay accent, olive/oat/iris states) mapped onto the --dsw-static-* token ladder. Colour only — typography is left to ui-theme.",
+  "type": "module",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true
+    }
+  },
+  "keywords": ["dsh", "dsh-plugin", "deepseek-harness", "skin", "theme", "anthropic", "paper"],
+  "license": "MIT",
+  "files": ["client.js", "index.js", "cordis.patch.yml", "src", "scripts", "README.md"]
+}
