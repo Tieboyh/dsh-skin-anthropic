@@ -14,6 +14,6 @@
   config:
     preference: system
     fontSize: 16
-    textFontFamily: '"Anthropic Serif Web", "Anthropic Serif Web Text", "PingFang SC", Georgia, serif'
+    textFontFamily: '"Anthropic Serif Variable", "Anthropic Serif Variable Text", "PingFang SC", Georgia, serif'
     codeFontFamily: '"Anthropic Mono Web", "Anthropic Mono", "SF Mono", Menlo, monospace'
     terminalFontFamily: '"Anthropic Mono Web", "Anthropic Mono", "SF Mono", Menlo, monospace'

@@ -60,12 +60,12 @@ body[data-dsh-skin="anthropic"][data-ds-dark-theme] → 同 82 个 static（暗�
 ## 字体
 
 ```yaml
-textFontFamily:     '"Anthropic Serif Web", "Anthropic Serif Web Text", "PingFang SC", Georgia, serif'
+textFontFamily:     '"Anthropic Serif Variable", "Anthropic Serif Variable Text", "PingFang SC", Georgia, serif'
 codeFontFamily:     '"Anthropic Mono Web", "Anthropic Mono", "SF Mono", Menlo, monospace'
 terminalFontFamily: '"Anthropic Mono Web", "Anthropic Mono", "SF Mono", Menlo, monospace'
 ```
 
-中文没有 Anthropic 字体可用——官方三套只有拉丁字形（各约 700 个 glyph），中文一律由 PingFang SC 兜底。想换中文观感，把 `PingFang SC` 换成 Noto Sans SC 或思源黑体即可。
+用的是 Anthropic Serif Variable（Version 26.179.2，`wght 300–800` + `opsz 16–48`）。这套和 Anthropic Sans/Mono 一样只有拉丁字形，中文一律由 PingFang SC 兜底。想换中文观感，把 `PingFang SC` 换成 Noto Sans SC 或思源黑体即可。
 
 ## 文件
 
