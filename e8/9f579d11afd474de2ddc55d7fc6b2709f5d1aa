@@ -1,0 +1,32 @@
+.gitignore
+  h_3e197acbd40638 1-4
+README.md
+  h_3e197acbd40638 1-101
+client.js
+  h_3e197acbd40638 1-53
+cordis.patch.yml
+  h_3e197acbd40638 1-19
+index.js
+  h_3e197acbd40638 1-11
+package.json
+  h_3e197acbd40638 1-23
+scripts/build-tokens.py
+  h_3e197acbd40638 1-274
+src/client.template.js
+  h_3e197acbd40638 1-53
+src/sidebar.css
+  h_3e197acbd40638 1-25
+src/tokens.css
+  h_3e197acbd40638 1-237
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "e89f579d11afd474de2ddc55d7fc6b2709f5d1aa",
+  "prompts": {},
+  "humans": {
+    "h_3e197acbd40638": {
+      "author": "hyh <Tieboyh@gmail.com>"
+    }
+  }
+}
