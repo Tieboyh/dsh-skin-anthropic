@@ -14,7 +14,15 @@
 
 ---
 
-## ✨ 为什么做这个皮肤？
+## ✨ 预览
+
+| 浅色模式 | 暗色模式 |
+| :---: | :---: |
+| ![Light Mode](assets/preview-light.png) | ![Dark Mode](assets/preview-dark.png) |
+
+---
+
+## 💡 为什么做这个皮肤？
 
 不只是换一层主题色。`dsh-skin-anthropic` 基于 `anthropic.com` 公开调色板与 Claude Design System (CDS) 的桌面端工程细节，从**色彩阶梯、表面微对比、光学排版、交互物理**四个维度重构 DeepSeek Harness 的视觉体验：
 
