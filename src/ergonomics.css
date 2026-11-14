@@ -1,0 +1,188 @@
+/* Ergonomics & physics enhancements inspired by Claude Design System (CDS).
+ * Scoped to body[data-dsh-skin="anthropic"]. */
+
+body[data-dsh-skin="anthropic"] {
+    --dsh-cds-spring: linear(0, .2459, .6526, .9468, 1.0764, 1.0915, 1.0585, 1.0219, .9993, .9914, .9921, .9957, .9988, 1.0004, 1);
+}
+
+/* 1. Composer dual-ring diffuse shadow (Light & Dark, with dark-mode top inset highlight) */
+body[data-dsh-skin="anthropic"] [data-composer-card]:not([class*="WorkspaceTrigger"]) {
+    box-shadow: 0 4px 20px rgba(20, 20, 19, 0.035), inset 0 0 0 1px var(--dsw-alias-border-l2);
+    transition: box-shadow 220ms cubic-bezier(.16, 1, .3, 1);
+}
+
+@media (hover: hover) {
+    body[data-dsh-skin="anthropic"] [data-composer-card]:not([class*="WorkspaceTrigger"]):hover {
+        box-shadow: 0 4px 24px rgba(20, 20, 19, 0.06), inset 0 0 0 1px var(--dsw-alias-border-l3);
+    }
+}
+
+body[data-dsh-skin="anthropic"] [data-composer-card]:not([class*="WorkspaceTrigger"]):focus-within {
+    box-shadow: 0 4px 24px rgba(20, 20, 19, 0.08), inset 0 0 0 1px var(--dsw-alias-border-l4), 0 0 0 1px var(--dsw-alias-border-l3);
+}
+
+body[data-dsh-skin="anthropic"][data-ds-dark-theme] [data-composer-card]:not([class*="WorkspaceTrigger"]) {
+    box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.36),
+        inset 0 0.5px 0 0 rgba(240, 238, 230, 0.08),
+        inset 0 0 0 1px var(--dsw-alias-border-l2);
+}
+
+@media (hover: hover) {
+    body[data-dsh-skin="anthropic"][data-ds-dark-theme] [data-composer-card]:not([class*="WorkspaceTrigger"]):hover {
+        box-shadow:
+            0 4px 24px rgba(0, 0, 0, 0.48),
+            inset 0 0.5px 0 0 rgba(240, 238, 230, 0.11),
+            inset 0 0 0 1px var(--dsw-alias-border-l3);
+    }
+}
+
+body[data-dsh-skin="anthropic"][data-ds-dark-theme] [data-composer-card]:not([class*="WorkspaceTrigger"]):focus-within {
+    box-shadow:
+        0 4px 24px rgba(0, 0, 0, 0.56),
+        inset 0 0.5px 0 0 rgba(240, 238, 230, 0.14),
+        inset 0 0 0 1px rgba(240, 238, 230, 0.22),
+        0 0 0 1px rgba(240, 238, 230, 0.16);
+}
+
+/* 2. Dark mode inset top highlight on DSH elevation variables (only affects real
+ * panels/menus/popovers that consume --dsw-elevation-panel / --dsw-elevation-prominent). */
+body[data-dsh-skin="anthropic"][data-ds-dark-theme],
+body[data-dsh-skin="anthropic"][data-ds-dark-theme] * {
+    --dsw-elevation-panel:
+        var(--dsw-elevation-stroke),
+        inset 0 0.5px 0 0 rgba(240, 238, 230, 0.08),
+        0 3px 10px 0 rgba(0, 0, 0, 0.32),
+        0 0 18px 0 rgba(0, 0, 0, 0.20);
+    --dsw-elevation-prominent:
+        var(--dsw-elevation-stroke),
+        inset 0 0.5px 0 0 rgba(240, 238, 230, 0.10),
+        0 6px 20px 0 rgba(0, 0, 0, 0.42),
+        0 0 24px 0 rgba(0, 0, 0, 0.28);
+}
+
+/* 3. CSS 15-step spring press & rebound via standalone `scale` property
+ * (leaves `transform` untouched so e.g. Send button's translateY(-2px) stays intact). */
+@media (prefers-reduced-motion: no-preference) {
+    body[data-dsh-skin="anthropic"] :is(
+        [data-composer-card] button:not(:disabled),
+        [class*="_root"]:has([data-sidebar-scrollport]) button[class*="_newSession"]:not(:disabled),
+        [class*="_root"]:has([data-sidebar-scrollport]) button[class*="_iconButton"]:not(:disabled),
+        button[class*="_button"]:not(:disabled),
+        button[class*="_Button"]:not(:disabled),
+        button[class*="_iconButton"]:not(:disabled),
+        button[class*="_primary"]:not(:disabled),
+        button[class*="_add"]:not(:disabled)
+    ) {
+        transition-property: scale, background-color, color, opacity, border-color;
+        transition-duration: 450ms, 120ms, 120ms, 120ms, 120ms;
+        transition-timing-function: var(--dsh-cds-spring), cubic-bezier(.16, 1, .3, 1), ease, ease, ease;
+    }
+
+    body[data-dsh-skin="anthropic"] :is(
+        [data-composer-card] button:not(:disabled),
+        [class*="_root"]:has([data-sidebar-scrollport]) button[class*="_newSession"]:not(:disabled),
+        [class*="_root"]:has([data-sidebar-scrollport]) button[class*="_iconButton"]:not(:disabled),
+        button[class*="_button"]:not(:disabled),
+        button[class*="_Button"]:not(:disabled),
+        button[class*="_iconButton"]:not(:disabled),
+        button[class*="_primary"]:not(:disabled),
+        button[class*="_add"]:not(:disabled)
+    ):active {
+        scale: 0.975;
+        transition-duration: 60ms, 120ms, 120ms, 120ms, 120ms;
+        transition-timing-function: ease-out, cubic-bezier(.16, 1, .3, 1), ease, ease, ease;
+    }
+}
+
+/* 4. Window-inactive desaturation (neutralize primary/accent clay tokens when unfocused) */
+body[data-dsh-skin="anthropic"][data-window-inactive] {
+    --dsw-alias-button-info-fill: #9c9a92 !important;
+    --dsw-alias-button-info-hover: #87867f !important;
+    --dsw-alias-state-business-primary: #87867f !important;
+    --dsw-alias-link: #73726c !important;
+    --dsw-alias-onboarding-accent: #9c9a92 !important;
+    --dsw-alias-trajectory-accent: #87867f !important;
+}
+
+body[data-dsh-skin="anthropic"][data-ds-dark-theme][data-window-inactive] {
+    --dsw-alias-button-info-fill: #5e5d59 !important;
+    --dsw-alias-button-info-hover: #73726c !important;
+    --dsw-alias-state-business-primary: #87867f !important;
+    --dsw-alias-link: #9c9a92 !important;
+    --dsw-alias-onboarding-accent: #73726c !important;
+    --dsw-alias-trajectory-accent: #73726c !important;
+}
+
+/* 5. Tabular numbers for code, timers, and counters */
+body[data-dsh-skin="anthropic"] :is(
+    pre,
+    code,
+    [class*="_lineNumber"],
+    [class*="_gutter"],
+    [class*="_time"],
+    [class*="_elapsed"],
+    [class*="_count"]
+) {
+    font-variant-numeric: tabular-nums;
+}
+
+/* 6. Dark mode variable-font optical weight compensation (anti-halation):
+ * 400 -> 385, 500 -> 465, 600 -> 560, 700 -> 660 on Anthropic Serif Variable,
+ * cleanly snapping to nearest integer step on static CJK fallbacks. */
+body[data-dsh-skin="anthropic"][data-ds-dark-theme] {
+    --dsw-font-markdown-h1: 660 calc(21px + var(--dsh-content-font-delta)) / calc(30px + var(--dsh-content-font-delta)) var(--dsw-font-family);
+    --dsw-font-markdown-h1-font-weight: 660;
+    --dsw-font-markdown-h2: 660 calc(19px + var(--dsh-content-font-delta)) / calc(28px + var(--dsh-content-font-delta)) var(--dsw-font-family);
+    --dsw-font-markdown-h2-font-weight: 660;
+    --dsw-font-markdown-h3: 660 calc(18px + var(--dsh-content-font-delta)) / calc(26px + var(--dsh-content-font-delta)) var(--dsw-font-family);
+    --dsw-font-markdown-h3-font-weight: 660;
+    --dsw-font-markdown-h4: 560 var(--dsh-content-font-size, 14px) / calc(24px + var(--dsh-content-font-delta)) var(--dsw-font-family);
+    --dsw-font-markdown-h4-font-weight: 560;
+    --dsw-font-markdown-base: 385 var(--dsh-content-font-size, 14px) / calc(24px + var(--dsh-content-font-delta)) var(--dsw-font-family);
+    --dsw-font-markdown-base-font-weight: 385;
+    --dsw-font-markdown-base-strong: 560 var(--dsh-content-font-size, 14px) / calc(24px + var(--dsh-content-font-delta)) var(--dsw-font-family);
+    --dsw-font-markdown-base-strong-font-weight: 560;
+    --dsw-font-markdown-base-italic: italic 385 var(--dsh-content-font-size, 14px) / calc(24px + var(--dsh-content-font-delta)) var(--dsw-font-family);
+    --dsw-font-markdown-base-italic-font-weight: 385;
+    --dsw-font-markdown-base-strong-italic: italic 560 var(--dsh-content-font-size, 14px) / calc(24px + var(--dsh-content-font-delta)) var(--dsw-font-family);
+    --dsw-font-markdown-base-strong-italic-font-weight: 560;
+    --dsw-font-markdown-table: 385 var(--dsh-content-font-size-secondary, 13px) / calc(22px + var(--dsh-content-font-delta-secondary, 0px)) var(--dsw-font-family);
+    --dsw-font-markdown-table-font-weight: 385;
+    --dsw-font-markdown-table-head: 465 var(--dsh-content-font-size-secondary, 13px) / calc(22px + var(--dsh-content-font-delta-secondary, 0px)) var(--dsw-font-family);
+    --dsw-font-markdown-table-head-font-weight: 465;
+    --dsw-font-markdown-small: 385 12px/20px var(--dsw-font-family);
+    --dsw-font-markdown-small-font-weight: 385;
+    --dsw-font-markdown-small-strong: 560 12px/20px var(--dsw-font-family);
+    --dsw-font-markdown-small-strong-font-weight: 560;
+    --dsw-font-markdown-small-italic: italic 385 12px/20px var(--dsw-font-family);
+    --dsw-font-markdown-small-italic-font-weight: 385;
+    --dsw-font-markdown-small-strong-italic: italic 560 12px/20px var(--dsw-font-family);
+    --dsw-font-markdown-small-strong-italic-font-weight: 560;
+    --dsw-font-xl-24: 560 24px/32px var(--dsw-font-family);
+    --dsw-font-xl-24-font-weight: 560;
+    --dsw-font-l-20: 465 20px/28px var(--dsw-font-family);
+    --dsw-font-l-20-font-weight: 465;
+    --dsw-font-m-18: 465 16px/28px var(--dsw-font-family);
+    --dsw-font-m-18-font-weight: 465;
+    --dsw-font-base-16: 385 16px/24px var(--dsw-font-family);
+    --dsw-font-base-16-font-weight: 385;
+    --dsw-font-base-strong-16: 465 16px/24px var(--dsw-font-family);
+    --dsw-font-base-strong-16-font-weight: 465;
+    --dsw-font-s-14: 385 14px/22px var(--dsw-font-family);
+    --dsw-font-s-14-font-weight: 385;
+    --dsw-font-s-strong-14: 465 14px/22px var(--dsw-font-family);
+    --dsw-font-s-strong-14-font-weight: 465;
+    --dsw-font-xs-13: 385 13px/20px var(--dsw-font-family);
+    --dsw-font-xs-13-font-weight: 385;
+    --dsw-font-xs-strong-13: 465 13px/20px var(--dsw-font-family);
+    --dsw-font-xs-strong-13-font-weight: 465;
+    --dsw-font-xxs-12: 385 12px/18px var(--dsw-font-family);
+    --dsw-font-xxs-12-font-weight: 385;
+    --dsw-font-xxs-strong-12: 465 12px/18px var(--dsw-font-family);
+    --dsw-font-xxs-strong-12-font-weight: 465;
+    --dsw-font-xxxs-11: 385 11px/14px var(--dsw-font-family);
+    --dsw-font-xxxs-11-font-weight: 385;
+    --dsw-font-xxxs-strong-11: 465 11px/14px var(--dsw-font-family);
+    --dsw-font-xxxs-strong-11-font-weight: 465;
+}

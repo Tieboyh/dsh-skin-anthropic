@@ -38,9 +38,26 @@ window.__ModuleLoader__.load({
                 tag.textContent = CSS;
                 document.head.append(tag);
                 if (document.body) document.body.setAttribute(SKIN_ATTRIBUTE, SKIN_VALUE);
+
+                // Window focus/blur tracking
+                const onFocus = () => {
+                    if (document.body) document.body.removeAttribute("data-window-inactive");
+                };
+                const onBlur = () => {
+                    if (document.body) document.body.setAttribute("data-window-inactive", "true");
+                };
+                window.addEventListener("focus", onFocus);
+                window.addEventListener("blur", onBlur);
+                if (typeof document.hasFocus === "function" && !document.hasFocus()) onBlur();
+
                 return () => {
                     tag.remove();
-                    if (document.body) document.body.removeAttribute(SKIN_ATTRIBUTE);
+                    window.removeEventListener("focus", onFocus);
+                    window.removeEventListener("blur", onBlur);
+                    if (document.body) {
+                        document.body.removeAttribute(SKIN_ATTRIBUTE);
+                        document.body.removeAttribute("data-window-inactive");
+                    }
                 };
             }, "dsh-skin-anthropic: palette");
         }

@@ -1,101 +1,128 @@
+<div align="center">
+
 # dsh-skin-anthropic
 
-Anthropic 纸感皮肤，给 DeepSeek Harness Web GUI 用。底色和语义色取自 anthropic.com 公开的调色板（`gray-000…1000`、`clay`、`olive`、`oat`、`iris`、`error`），映射到 DSH 的设计 token 层；同时接管三处字体栈，装一个插件就得到完整的 Anthropic 外观。
+**给 DeepSeek Harness Web GUI 换上温润的 Anthropic 纸感皮肤与 Claude 级交互质感**
 
-## 安装
+*Editorial Warmth · Surface 0–3 纸面微对比 · 15 阶弹簧手感 · Zero-JS 滚动渐隐 · 暗色防光渗字重补偿*
 
-从 GitHub 装：
+[![License: MIT](https://img.shields.io/badge/License-MIT-d97757.svg)](LICENSE)
+[![DSH Plugin](https://img.shields.io/badge/DeepSeek%20Harness-Web%20Skin-141413.svg)](https://github.com/Tieboyh/dsh-skin-anthropic)
+[![Zero Build Deps](https://img.shields.io/badge/Runtime-Pure%20CSS%20%2B%20Tiny%20Effect-788c5d.svg)](#架构与文件)
+
+</div>
+
+---
+
+## ✨ 为什么做这个皮肤？
+
+不只是换一层主题色。`dsh-skin-anthropic` 基于 `anthropic.com` 公开调色板与 Claude Design System (CDS) 的桌面端工程细节，从**色彩阶梯、表面微对比、光学排版、交互物理**四个维度重构 DeepSeek Harness 的视觉体验：
+
+### 🎨 1. 温润纸感与 Surface 0–3 微对比层次
+* **浅色纸面**：`#f5f4ed`（侧栏 Surface 0）→ `#faf9f5`（主画布 Surface 1）→ `#fcfbf8`（一级抬升）→ `#ffffff`（卡片与输入框 Surface 2/3），温和不刺眼。
+* **暗色黑纸**：`#111110` → `#161514` → `#1c1b19` / `#22211f` / `#282725`，告别冷蓝灰暗底；浮层与卡片自动叠加极细的 `0.5px` **顶部内高光（`inset`）**，深色纸面叠层依然清晰锐利。
+* **macOS Vibrancy 暖色适配**：覆盖 DSH 原生在 `darwin` 下偏冷蓝紫的侧栏洗色与半透明菜单底色，让毛玻璃透出干净的暖纸感。
+* **品牌与焦点角色分离**：发送按钮、推理呼吸、陶土扫光使用经典的 **Clay 陶土橙（`#d97757` / `#c6613f`）**；键盘焦点环（Focus Ring）保留克制的 **Focus Blue（`#2a78d6` / `#6da7ec`）**，兼顾辨识度与克制感。
+
+### ⚡ 2. 桌面级微交互物理学
+* **15 阶 CSS 弹簧按钮手感**：利用独立 `scale` 属性实现按下 `60ms` 轻陷至 `0.975`、松手 `450ms` 弹性复位的物理回弹（不破坏原有 `transform` 定位，且遵循 `prefers-reduced-motion`）。
+* **Composer 双环漫反射阴影**：输入框在静息、悬停与聚焦时呈现三段细腻的柔光扩散与内发丝描边过渡。
+* **Zero-JS 7 档非线性滚动渐隐**：基于 `@property` + `animation-timeline: scroll(self)` 的纯 CSS 边缘消隐遮罩，在侧边栏与会话列表可滚动时自动激活，即使叠加在 macOS 毛玻璃上也能透明融化边缘。
+* **窗口失焦自动降饱和**：监听窗口 `focus` / `blur`，切换后台时自动将主操作按钮与强调色退化为中性暖灰，回到前台时重新点亮陶土橙。
+
+### 👁️ 3. 光学排版与细节克制
+* **暗色模式字重逆补偿（Anti-Halation）**：针对深底浅字的视网膜光渗现象，在暗色模式下通过 `--dsw-font-*` 将 `400 / 500 / 600 / 700` 字重微调为 `385 / 465 / 560 / 660`，搭配 `Anthropic Serif Variable` 可变字体不发胀、不糊边。
+* **等宽数字防抖动**：代码块、计时器与统计数字启用 `tabular-nums`，流式刷新时不左右跳位。
+* **精简差异化暗色样式**：暗色模式仅生成差异 Token，CSS 体积轻量且可维护。
+
+---
+
+## 📦 安装
+
+### 从 GitHub 安装
 
 ```bash
 dsh plugin --profile desktop add github:Tieboyh/dsh-skin-anthropic
 ```
 
-或用本地目录（开发时）：
+### 本地开发链接
 
 ```bash
 dsh plugin --profile desktop add link:/path/to/dsh-skin-anthropic
 ```
 
-装完重启 DSH，设置 → 外观里能看到字体栈已指向 Anthropic。
+安装后重启（或刷新）DSH，在 **设置 → 外观** 中即可看到字体栈已自动接管为 Anthropic 排版栈。
 
-**字体文件需要自己装。** 插件只写 `font-family` 名称，不包含任何字体二进制——Anthropic Sans / Serif / Mono 是 Anthropic 的专有字体，没有公开授权。没装字体时后面的 PingFang SC / Georgia 会接手，界面不会坏，只是没有 Anthropic 的字形。
+> **关于字体文件**：本仓库**不包含任何专有字体二进制文件**。`cordis.patch.yml` 仅在配置层写入 `font-family` 名称（如 `Anthropic Serif Variable` / `Anthropic Mono`），若本机未安装对应字体，会自动平滑回退到 `PingFang SC` / `Georgia` / `SF Mono`，界面排版不会错位；你也可以随时在「设置 → 外观」中自由覆盖字体与字号。
 
-## 怎么工作的
+---
 
-DSH 的组件不直接写颜色，而是引用 `--dsw-alias-*`；这些 alias 又全部指向一层原子阶梯 `--dsw-static-*`（neutral、bluish、blue、red、green、amber、violet）。皮肤只重写这一层：
+## 🎨 色板映射一览
 
-```
-body[data-dsh-skin="anthropic"]                     → 82 个 static + 30 个字面色 alias
-body[data-dsh-skin="anthropic"][data-ds-dark-theme] → 同 82 个 static（暗色尾段加深）+ 28 个 alias
-```
+| 角色 / 用途 | DSH Token | 浅色值 | 暗色值 | 设计来源 |
+|---|---|---|---|---|
+| 侧栏基底（Surface 0） | `--dsw-specific-sidebar-fill` | `#f5f4ed` | `#111110` | Paper Gray 100 / Obsidian |
+| 主画布（Surface 1） | `--dsw-alias-bg-base` | `#faf9f5` | `#161514` | Paper Gray 050 / Dark Paper |
+| 输入框（Surface 3） | `--dsw-specific-input-major` | `#ffffff` | `#201f1d` | Crisp Card Surface |
+| 正文 / 主按钮 | `neutral-bluish-1000` | `#141413` | `#f0eee6` | Ink / Warm Bone |
+| 次要 / 说明文字 | `neutral-bluish-700 / 600` | `#73726c / #87867f` | `#9c9a92 / #87867f` | Warm Stone |
+| 品牌强调 / 发送 / 扫光 | `blue-500 / deepseek-500` | `#d97757` (`#c6613f` hover) | `#d97757` (`#e08b6e` shimmer) | Clay Terracotta |
+| 键盘焦点环 | `--dsw-focus-ring-color` | `#2a78d6` | `#6da7ec` | Focus Blue |
+| 成功 / Diff Added | `green-*` | `#788c5d` | `#8ea56e` | Olive |
+| 错误 / Diff Deleted | `red-*` | `#bf4d43` | `#d16156` | Error |
+| 警告 | `amber-*` | `#c08a3e` | `#e2ab55` | Oat / Ochre |
+| 完成态 / 特殊状态 | `violet-*` | `#7a68c6` | `#b4a9e6` | Iris |
 
-于是 surface / label / border / button / bubble / 弹层全部跟着变，不需要逐个组件适配。所有声明带 `!important`，因为 theme presenter 把 token 写成 body 内联样式，普通样式表压不住它。
+---
 
-字体走的是 bundle patch 里的 `ui-theme` config（`textFontFamily` / `codeFontFamily` / `terminalFontFamily`），属于配置层而不是 CSS，所以在设置界面里仍可被用户覆盖。
+## 🛠️ 架构与文件
 
-## 色板
-
-| 用途 | DSH token | 值 | 来源 |
-|---|---|---|---|
-| 页面 / 卡片 / layer | `neutral-bluish-00` | `#faf9f5` | gray-050 |
-| 侧栏、登录输入 | `neutral-bluish-50` | `#f5f4ed` | gray-100 |
-| 模块平台、选择器、tip | `neutral-bluish-60` | `#f0eee6` | gray-150 |
-| 遮罩层 | `neutral-bluish-150` | `#e2e0d5` | gray-200/250 之间 |
-| 正文 | `neutral-bluish-1000` | `#141413` | gray-950 |
-| 次要文字 | `neutral-bluish-700` | `#73726c` | gray-550 |
-| 说明文字 | `neutral-bluish-600` | `#87867f` | gray-500 |
-| 品牌 / 主按钮 | `neutral-bluish-1000` | `#141413` | 官网按钮就是黑底白字 |
-| 强调 / 焦点 / 链接 | `blue-500` / `deepseek-500` | `#d97757` | clay |
-| 强调 hover | `blue-600` | `#c6613f` | clay-interactive |
-| 用户气泡 | `deepseek-50` / `-200` | `#fdf3ef` / `#f6d2c3` | clay 淡化 |
-| 成功 / diff-added | `green-*` | `#788c5d` | olive |
-| 错误 / diff-deleted | `red-*` | `#bf4d43` | Anthropic error |
-| 警告 | `amber-*` | `#c08a3e` | oat 加深 |
-| 特殊状态 | `violet-*` | `#4a3aa7` | iris-deep |
-
-暗色模式下 alias 引用的阶梯反向（底取 950、文字取 50），所以同一套 static 自动得到对的反差；暗色块另外把尾段压到 `#141413 / #1a1918 / #1f1e1d / #262624`，贴近 Anthropic 自己的暗色纸面。
-
-弹层、hairline 边框、遮罩这些字面量 alias 单独覆盖过，用的是 `#141413` 的透明度而非纯黑，避免暖底上出现冷灰边。
-
-## 字体
-
-```yaml
-textFontFamily:     '"Anthropic Serif Variable", "Anthropic Serif Variable Text", "PingFang SC", Georgia, serif'
-codeFontFamily:     '"Anthropic Mono Web", "Anthropic Mono", "SF Mono", Menlo, monospace'
-terminalFontFamily: '"Anthropic Mono Web", "Anthropic Mono", "SF Mono", Menlo, monospace'
+```text
+dsh-skin-anthropic/
+├── client.js                 # 预构建的 Client Bundle（已内联全部 CSS 与窗口失焦监听）
+├── index.js                  # Host 侧空壳（维持 Fiber 生命周期）
+├── cordis.patch.yml          # Bundle Patch：挂载皮肤并配置 ui-theme 默认字体栈
+├── scripts/
+│   └── build-tokens.py       # Token 生成与样式打包脚本（暗色差异生成 + 内联打包）
+└── src/
+    ├── client.template.js    # Client 入口模板（CSS 挂载、focus/blur 监听与干净卸载）
+    ├── tokens.css            # 自动生成的色板、Surface 0–3、macOS Vibrancy 与焦点环规则
+    ├── sidebar.css           # 侧栏紧凑布局微调 + Scroll-Driven 7 档边缘渐隐
+    └── ergonomics.css        # Composer 阴影、15 阶弹簧手感、失焦降饱和与暗色字重补偿
 ```
 
-用的是 Anthropic Serif Variable（Version 26.179.2，`wght 300–800` + `opsz 16–48`）。这套和 Anthropic Sans/Mono 一样只有拉丁字形，中文一律由 PingFang SC 兜底。想换中文观感，把 `PingFang SC` 换成 Noto Sans SC 或思源黑体即可。
+---
 
-## 文件
+## 🎛️ 自定义与二次开发
 
-```
-client.js                预构建的 client bundle（CSS 已内联，ModuleLoader 拿不到文件）
-index.js                 host 侧空壳，只为让 fiber 存在
-cordis.patch.yml         bundle patch：insert 皮肤 + 覆盖 ui-theme 的字体栈
-src/tokens.css           生成的样式表，便于阅读 diff
-src/client.template.js   bundle 模板（含 CSS 占位）
-scripts/build-tokens.py  生成器：改色只改这里的表
-```
-
-## 改色
-
-改 `scripts/build-tokens.py` 里的 `EXPLICIT`（中性阶梯与强调色的落点）或 `CLAY / ERROR / OLIVE / OCHRE / IRIS` 色带，然后：
+修改 `scripts/build-tokens.py` 中的色带（`CLAY / ERROR / OLIVE / OCHRE / IRIS`）、`EXPLICIT` 映射或 `src/sidebar.css` / `src/ergonomics.css` 后，重新构建即可：
 
 ```bash
-python3 scripts/build-tokens.py   # 同时生成 src/tokens.css 与 client.js
-node --check client.js
+python3 scripts/build-tokens.py   # 重新生成 src/tokens.css 并打包 client.js
+node --check client.js            # 校验 bundle 语法
 ```
 
-DSH 的 HMR 会重新加载 client bundle，界面即变，不用重启。
+开启本地链接开发时，DSH 的 HMR 会自动感知 `client.js` 变更，刷新页面即可看到效果。
 
-## 开关
+---
 
-- 临时关：在 profile 的 `cordis.patch.yml` 加 `- id: skin-anthropic` + `disabled: true`；
-- 彻底删：`dsh plugin --profile desktop remove dsh-skin-anthropic`。
+## 🔌 启停与卸载
 
-皮肤通过 `body[data-dsh-skin="anthropic"]` 作用域生效，卸载时属性与 `<style>` 一起被移除，不会留残留。
+* **临时禁用**：在 profile 的 `cordis.patch.yml` 中添加：
+  ```yaml
+  - id: skin-anthropic
+    disabled: true
+  ```
+* **彻底卸载**：
+  ```bash
+  dsh plugin --profile desktop remove dsh-skin-anthropic
+  ```
 
-## 说明
+所有样式均严格作用域限定在 `body[data-dsh-skin="anthropic"]` 下，停用或卸载时会自动清理 `<style>` 标签、DOM 属性与事件监听器，不留任何残留。
 
-配色取自 anthropic.com 的公开样式表，用于个人界面定制；Anthropic 的名称与字体归 Anthropic PBC 所有，本仓库不包含任何字体文件。
+---
+
+## 🙏 致谢与声明
+
+* 调色板取自 `anthropic.com` 公开样式表；交互物理参数、Surface 0–3 层次与暗色光学补偿理念参考了 [open-claude-ui](https://github.com/Caho1/open-claude-ui) 对 Claude Desktop (CDS) 的逆向研究。
+* `Anthropic` 与 `Claude` 的名称、品牌标识及专有字体归 Anthropic PBC 所有；本仓库仅包含 CSS / JS 配置实现，不包含任何字体或音频二进制文件。

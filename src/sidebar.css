@@ -23,3 +23,82 @@ body[data-dsh-skin="anthropic"] [class*="_root"]:has([data-sidebar-scrollport]) 
 body[data-dsh-skin="anthropic"] [class*="_root"]:has([data-sidebar-scrollport]) button[class*="_newSession"]:hover {
     background: var(--dsw-alias-interactive-bg-hover);
 }
+
+/* Zero-JS Scroll-Driven 7-stop non-linear edge fade for sidebar scrollers.
+ * Uses CSS mask-image so it blends seamlessly over macOS vibrancy too. */
+@property --dsh-anthro-scroll-fade-size { syntax: "<length>"; inherits: false; initial-value: 20px; }
+@property --dsh-anthro-scroll-fade-top-raw { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --dsh-anthro-scroll-fade-bottom-raw { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --dsh-anthro-scroll-fade-y-active { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --dsh-anthro-scroll-fade-top { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --dsh-anthro-scroll-fade-bottom { syntax: "<length>"; inherits: false; initial-value: 0px; }
+
+@keyframes dsh-anthro-scroll-fade-top {
+    0% { --dsh-anthro-scroll-fade-top-raw: 0px; }
+    100% { --dsh-anthro-scroll-fade-top-raw: var(--dsh-anthro-scroll-fade-size); }
+}
+
+@keyframes dsh-anthro-scroll-fade-bottom {
+    0% { --dsh-anthro-scroll-fade-bottom-raw: var(--dsh-anthro-scroll-fade-size); }
+    100% { --dsh-anthro-scroll-fade-bottom-raw: 0px; }
+}
+
+@keyframes dsh-anthro-scroll-fade-y-active {
+    0%, 100% { --dsh-anthro-scroll-fade-y-active: 1; }
+}
+
+@supports (animation-timeline: scroll()) {
+    body[data-dsh-skin="anthropic"] [data-sidebar-scrollport],
+    body[data-dsh-skin="anthropic"] [class*="_root"]:has([data-sidebar-scrollport]) [class*="_listArea"] {
+        --dsh-anthro-scroll-fade-top: calc(var(--dsh-anthro-scroll-fade-top-raw) * var(--dsh-anthro-scroll-fade-y-active));
+        --dsh-anthro-scroll-fade-bottom: calc(var(--dsh-anthro-scroll-fade-bottom-raw) * var(--dsh-anthro-scroll-fade-y-active));
+        animation-name: dsh-anthro-scroll-fade-top, dsh-anthro-scroll-fade-bottom, dsh-anthro-scroll-fade-y-active;
+        animation-duration: auto;
+        animation-timing-function: linear;
+        animation-fill-mode: both, both, none;
+        animation-timeline: scroll(self);
+        -webkit-mask-image: linear-gradient(
+            to bottom,
+            transparent,
+            #0000000d calc(var(--dsh-anthro-scroll-fade-top) * 0.15),
+            #00000026 calc(var(--dsh-anthro-scroll-fade-top) * 0.30),
+            #0000004d calc(var(--dsh-anthro-scroll-fade-top) * 0.45),
+            #00000080 calc(var(--dsh-anthro-scroll-fade-top) * 0.60),
+            #000000b3 calc(var(--dsh-anthro-scroll-fade-top) * 0.75),
+            #000000d9 calc(var(--dsh-anthro-scroll-fade-top) * 0.87),
+            #000 var(--dsh-anthro-scroll-fade-top),
+            #000 calc(100% - var(--dsh-anthro-scroll-fade-bottom)),
+            #000000d9 calc(100% - var(--dsh-anthro-scroll-fade-bottom) * 0.87),
+            #000000b3 calc(100% - var(--dsh-anthro-scroll-fade-bottom) * 0.75),
+            #00000080 calc(100% - var(--dsh-anthro-scroll-fade-bottom) * 0.60),
+            #0000004d calc(100% - var(--dsh-anthro-scroll-fade-bottom) * 0.45),
+            #00000026 calc(100% - var(--dsh-anthro-scroll-fade-bottom) * 0.30),
+            #0000000d calc(100% - var(--dsh-anthro-scroll-fade-bottom) * 0.15),
+            transparent
+        );
+        mask-image: linear-gradient(
+            to bottom,
+            transparent,
+            #0000000d calc(var(--dsh-anthro-scroll-fade-top) * 0.15),
+            #00000026 calc(var(--dsh-anthro-scroll-fade-top) * 0.30),
+            #0000004d calc(var(--dsh-anthro-scroll-fade-top) * 0.45),
+            #00000080 calc(var(--dsh-anthro-scroll-fade-top) * 0.60),
+            #000000b3 calc(var(--dsh-anthro-scroll-fade-top) * 0.75),
+            #000000d9 calc(var(--dsh-anthro-scroll-fade-top) * 0.87),
+            #000 var(--dsh-anthro-scroll-fade-top),
+            #000 calc(100% - var(--dsh-anthro-scroll-fade-bottom)),
+            #000000d9 calc(100% - var(--dsh-anthro-scroll-fade-bottom) * 0.87),
+            #000000b3 calc(100% - var(--dsh-anthro-scroll-fade-bottom) * 0.75),
+            #00000080 calc(100% - var(--dsh-anthro-scroll-fade-bottom) * 0.60),
+            #0000004d calc(100% - var(--dsh-anthro-scroll-fade-bottom) * 0.45),
+            #00000026 calc(100% - var(--dsh-anthro-scroll-fade-bottom) * 0.30),
+            #0000000d calc(100% - var(--dsh-anthro-scroll-fade-bottom) * 0.15),
+            transparent
+        );
+    }
+
+    /* Hide DSH's solid-overlay bottom fade strip so it doesn't double-fade. */
+    body[data-dsh-skin="anthropic"] [class*="_scrollRegion"]:has([data-sidebar-scrollport]) > [class*="_scrollFade"] {
+        display: none;
+    }
+}
