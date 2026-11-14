@@ -1,0 +1,14 @@
+README.md
+  h_3e197acbd40638 17-25
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a3a9e3eaa7bedf88aba433c2cef801e3ddc8eda3",
+  "prompts": {},
+  "humans": {
+    "h_3e197acbd40638": {
+      "author": "hyh <Tieboyh@gmail.com>"
+    }
+  }
+}
