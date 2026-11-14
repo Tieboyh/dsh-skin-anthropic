@@ -1,0 +1,26 @@
+README.md
+  h_3e197acbd40638 1,3,5,7,9-11,13,15,17,19,21-25,27-31,33-36,38,40,42,44-45,48,50-51,53-91,94-96,98,101-102,105-109,111-119,121,123,125,127-128
+client.js
+  h_3e197acbd40638 26,41-52,55-60
+scripts/build-tokens.py
+  h_3e197acbd40638 148-151,179-181,184-185,187-188,192-195,222-224,226-227,229-249,264-265,272,276-277,282-290,295,297-303
+src/client.template.js
+  h_3e197acbd40638 41-52,55-60
+src/ergonomics.css
+  h_3e197acbd40638 1-188
+src/sidebar.css
+  h_3e197acbd40638 26-104
+src/tokens.css
+  h_3e197acbd40638 3,89-92,120-122,125-126,128-131,142-145,170-172,174-175,177-197
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "059b527c842d2ae6b610ac772d74b209543ee11a",
+  "prompts": {},
+  "humans": {
+    "h_3e197acbd40638": {
+      "author": "hyh <Tieboyh@gmail.com>"
+    }
+  }
+}
