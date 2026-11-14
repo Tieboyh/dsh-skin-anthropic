@@ -1,0 +1,18 @@
+client.js
+  h_3e197acbd40638 26
+scripts/build-tokens.py
+  h_3e197acbd40638 52,215-218,230,237,240-242,244-245,249,252
+src/tokens.css
+  h_3e197acbd40638 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "b8a2c07f5fea0c14937418908d37e2dccb8f3a03",
+  "prompts": {},
+  "humans": {
+    "h_3e197acbd40638": {
+      "author": "hyh <Tieboyh@gmail.com>"
+    }
+  }
+}
